@@ -1,0 +1,72 @@
+# creacion de la base de datos
+
+DROP DATABASE IF EXISTS proyecto1;
+create database IF NOT EXISTS proyecto1;
+
+#seleccionamos la base de datos
+
+use proyecto1;
+
+#creacion de tablas
+
+create table if not exists cliente(
+	idcliente int primary key  AUTO_INCREMENT,
+	cedula Varchar(10) DEFAULT NULL,
+	nombres Varchar(150) DEFAULT NULL,
+	direccion Varchar(150) DEFAULT NULL,
+	telefono varchar(15) DEFAULT NULL,
+	estado varchar(13) DEFAULT NULL
+) ENGINE=INNODB;
+
+create table if not exists productos(
+	idproducto int(6) primary key AUTO_INCREMENT,
+	nombres Varchar(50) DEFAULT null,
+	precio double DEFAULT null,
+	stock int(11) UNSIGNED DEFAULT NULL,
+	estado varchar(14) DEFAULT NULL
+	) ENGINE=INNODB;
+
+create table if not exists vendedor(
+	idvendedor int primary key AUTO_INCREMENT,
+	cedula Varchar(10) DEFAULT null,
+	nombres Varchar(150) DEFAULT NULL,
+	telefono varchar(15) DEFAULT NULL
+) ENGINE=INNODB;
+
+create table if not exists usuariovendedor(
+	idvendedor int primary key AUTO_INCREMENT,
+	cedula varchar(10) DEFAULT NULL,
+	user varchar(8) DEFAULT NULL,
+	contra varchar(10) default null,
+	foreign key(idvendedor ) references vendedor(idvendedor)
+	)ENGINE=INNODB;
+
+create table if not exists ventas(
+	idventas int(6) primary key AUTO_INCREMENT,
+	idcliente int(10) not null,
+	idvendedor int(10) not null,
+	numeroSerie varchar(244) DEFAULT NULL,
+  	fechaVentas date DEFAULT NULL,
+	subtotal double DEFAULT NULL,
+	iva double DEFAULT NULL,
+  	total double DEFAULT NULL,
+	foreign key(idcliente  ) references cliente(idcliente  ),
+	foreign key(idvendedor  ) references vendedor(idvendedor  )
+) ENGINE=INNODB;
+
+
+create table if not exists detalleventas(
+	iddetalleventas int(6) AUTO_INCREMENT,
+	idventas int(6) not null,
+	idproducto int(6)not null,
+	cantidad int(11) not null,
+	precio double DEFAULT null,
+	Primary Key(iddetalleventas,idventas,idproducto ),
+	foreign key(idventas ) references ventas(idventas ),
+	foreign key(idproducto ) references productos(idproducto )
+	) ENGINE=INNODB;
+
+INSERT INTO vendedor VALUES
+('','1315562858','Christopher Alfaro Moreira Zambrano','0979417720');
+INSERT INTO usuariovendedor VALUES
+('','1315562858','camz','123');
